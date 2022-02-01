@@ -452,7 +452,7 @@ function test2() {
   //Logger.log(setMonthlyPageRelationToReflectionPage(new Date()))
 }
 
-function getTheNumberOfPomoPages(date) {
+function getTheNumberOfPomos(date) {
   let payload = {
     "filter": {
       "and": [
@@ -471,13 +471,13 @@ function getTheNumberOfPomoPages(date) {
       ]
     }
   }
-  return getPages(payload, databaseId())["results"].length
+  return getPages(payload, databaseId())["results"].reduce((sum, p) => sum + p["properties"]["🍅"]["multi_select"].length, 0)
 }
 
 function updateStatistics(date) {
   let reflectionPageId = getReflectionPageId(date)
   let isRecorded = getBlockChildren(reflectionPageId, 1)["results"].length == 1
-  let numOfPomos = getTheNumberOfPomoPages(date)
+  let numOfPomos = getTheNumberOfPomos(date)
   let payload = {
     "properties": {
       "記録あり": {
